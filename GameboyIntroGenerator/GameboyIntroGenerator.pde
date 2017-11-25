@@ -1,6 +1,8 @@
-final String TITLE = "THICC BOY";
-final String SUBTITLE = "Down with the thiccness";
-final int TEXTSIZE = 32;
+import gifAnimation.*;
+
+final String TITLE = "GEAUX TIGERS";
+final String SUBTITLE = "Aggies suck";
+int TEXTSIZE = 0;
 final int ANIMATIONLENGTH = 4;
 final int FRAMERATE = 60;
 final boolean SAVEFRAMES = true; //helpful for previewing without saving
@@ -17,12 +19,29 @@ PGraphics textLayer;
 PGraphics effectLayer;
 int secs = 0;
 
+GifMaker gif;
+
 void setup() {
-  size(320, 240);
+  size(640, 480);
   frameRate(FRAMERATE);
 
   //load the font
+  TEXTSIZE = width / 10;
   earlyGameBoy = createFont("GameBoy.ttf", TEXTSIZE);
+  textFont(earlyGameBoy);
+  boolean reducedTextSize = false;
+  while (textWidth(TITLE) > width * .9) {
+    reducedTextSize = true;
+    TEXTSIZE--;
+    earlyGameBoy = createFont("GameBoy.ttf", TEXTSIZE);
+    textFont(earlyGameBoy);
+  }
+  if (reducedTextSize) println("WARNING: TITLE might be a little too long");
+  
+  //initialize the gif maker
+  gif = new GifMaker(this, TITLE + ".gif");
+  gif.setRepeat(0); //loops forever
+  gif.setDelay((int)(1000.0f / ((float)FRAMERATE)));
 
   //add the colors to the palette to shift though
   palette = new ArrayList<Integer>();
@@ -52,7 +71,7 @@ void draw() {
   }
 
   //draw the subitle after some time
-  if (percentDone > 50) {
+  if (percentDone > 70) {
     fill(0);
     textFont(earlyGameBoy);
     textSize(TEXTSIZE / 4);
@@ -60,6 +79,7 @@ void draw() {
     text(SUBTITLE, width/2, height/2 + TEXTSIZE);
   }
 
+  //increment the animation and blend it with the text
   updateEffect();
 
   //Draw the final text
@@ -67,11 +87,17 @@ void draw() {
 
 
   if (SAVEFRAMES && frameCount < (ANIMATIONLENGTH * FRAMERATE)) {
-    saveFrame(TITLE + "/" + TITLE + "-" +nf(frameCount,5) + ".png");
+    gif.addFrame();
   }
   if (frameCount > (ANIMATIONLENGTH * FRAMERATE)) {
     println("Done!");
-    noLoop();
+    if (gif.finish()) {
+      println("Gif export successful");
+    } else {
+      println("Gif did not save...");
+    }
+    delay(1500);
+    exit();
   }
 }
 
@@ -85,18 +111,19 @@ void updateText() {
   textLayer.endDraw();
 }
 
+//increments through the animation and blends with the text layer
 void updateEffect() {
   //draw the colors to be blended with text
   effectLayer.beginDraw();
-  effectLayer.background(0,0,0,0);
-  
+  effectLayer.background(0, 0, 0, 0);
+
   //draw each rectangle left of the screen and slide them right as time progresses
   float dx = map(frameCount, 0f, (float)(ANIMATIONLENGTH * FRAMERATE)/4, -width, width);
   for (int i=palette.size()-1; i>=0; i--) {
     color c = palette.get(i).intValue();
     effectLayer.fill(c);
     effectLayer.noStroke();
-    if(i!=0)
+    if (i!=0)
       effectLayer.rect(dx + i * (width / palette.size()), 0, width / palette.size(), height);
     else
       effectLayer.rect(0, 0, dx, height);
