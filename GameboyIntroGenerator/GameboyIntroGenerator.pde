@@ -1,13 +1,16 @@
 import gifAnimation.*;
+import processing.pdf.*;
 
-final String TITLE = "THICC BOY";
-final String SUBTITLE = "Down with the thickness";
+final String TITLE = "Game boy";
+final String SUBTITLE = "nintendo";
 int TEXTSIZE = 0;
 final int ANIMATIONLENGTH = 4;
 final int FRAMERATE = 60;
-final boolean SAVEGIF = true; //helpful for previewing without saving
-final boolean SAVEFRAMES = true; //Save the frames to create a non-gif video with processing's movie maker
-PFont earlyGameBoy;
+final boolean SAVEGIF = false; //helpful for previewing without saving
+final boolean SAVEFRAMES = false; //Save the frames to create a non-gif video with processing's movie maker
+
+PFont TitleFont;
+PFont SubTitleFont;
 
 final color BLUE = color(56, 144, 240);
 final color GREEN = color(64, 204, 63);
@@ -20,23 +23,25 @@ ArrayList<Integer> palette; //The palette of colors to change through
 PGraphics textLayer;
 PGraphics effectLayer;
 int secs = 0;
+boolean startedDrawingSubtitle = false;
 
 GifMaker gif;
 
 void setup() {
-  size(640, 480);
+  size(640, 480, P2D);
   frameRate(FRAMERATE);
 
   //load the font
   TEXTSIZE = height / 6;
-  earlyGameBoy = createFont("GameBoy.ttf", TEXTSIZE);
-  textFont(earlyGameBoy);
+  TitleFont = createFont("data/GameBoy.ttf", TEXTSIZE, false);
+  SubTitleFont = createFont("data/GameBoy.ttf", TEXTSIZE / 4, false);
+  textFont(TitleFont);
   boolean reducedTextSize = false;
   while (textWidth(TITLE) > width * .7) {
     reducedTextSize = true;
     TEXTSIZE--;
-    earlyGameBoy = createFont("GameBoy.ttf", TEXTSIZE);
-    textFont(earlyGameBoy);
+    TitleFont = createFont("GameBoy.ttf", TEXTSIZE,false);
+    textFont(TitleFont);
   }
   if (reducedTextSize) println("WARNING: TITLE might be a little too long");
 
@@ -69,7 +74,7 @@ void setup() {
 }
 
 void draw() {
-  background(250);
+  background(248,252,248);
   
   //increment the animation and blend it with the text
   updateEffect();
@@ -79,10 +84,15 @@ void draw() {
 
   //draw the subitle after some time
   float percentDone = ((float)frameCount / (float)(ANIMATIONLENGTH * FRAMERATE)) * 100.0f;
-  if (percentDone > 5) {
+  if (percentDone > 60) {
+    if(!startedDrawingSubtitle){
+      println("Started subtitle");
+      startedDrawingSubtitle = true;
+    }
     fill(0);
-    textFont(earlyGameBoy);
+    textMode(MODEL);
     textSize(TEXTSIZE / 4);
+    textFont(SubTitleFont);
     textAlign(CENTER, BOTTOM);
     text(SUBTITLE, width/2, height - (height/3));
   }
@@ -117,7 +127,8 @@ void draw() {
 void updateText() {
   textLayer.beginDraw();
   textLayer.background(0, 0, 0, 0);
-  textLayer.textFont(earlyGameBoy);
+  textLayer.textFont(TitleFont);
+  textLayer.textSize(TEXTSIZE);
   textLayer.textAlign(CENTER, TOP);
   textLayer.fill(0, 0, 0, 255);
   textLayer.text(TITLE, width/2, height/3);
