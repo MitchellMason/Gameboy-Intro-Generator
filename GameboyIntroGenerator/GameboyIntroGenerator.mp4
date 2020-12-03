@@ -1,8 +1,8 @@
 import gifAnimation.*;
 import processing.pdf.*;
 
-final String TITLE = "Game boy";
-final String SUBTITLE = "nintendo";
+final String TITLE = "TheKnownOG";
+final String SUBTITLE = "ザ ノノッグオグ";
 int TEXTSIZE = 0;
 final int ANIMATIONLENGTH = 4;
 final int FRAMERATE = 60;
