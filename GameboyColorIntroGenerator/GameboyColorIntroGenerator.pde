@@ -1,12 +1,12 @@
 import gifAnimation.*;
 import processing.pdf.*;
 
-final String TITLE = "Game boy";
-final String SUBTITLE = "nintendo";
+final String TITLE = "GAME BOY";
+final String SUBTITLE = "Nintendo®";
 int TEXTSIZE = 0;
 final int ANIMATIONLENGTH = 4;
 final int FRAMERATE = 60;
-final boolean SAVEGIF = false; //helpful for previewing without saving
+final boolean SAVEGIF = false; //Helpful for previewing without saving
 final boolean SAVEFRAMES = false; //Save the frames to create a non-gif video with processing's movie maker
 
 PFont TitleFont;
@@ -33,14 +33,14 @@ void setup() {
 
   //load the font
   TEXTSIZE = height / 6;
-  TitleFont = createFont("data/GameBoy.ttf", TEXTSIZE, false);
-  SubTitleFont = createFont("data/GameBoy.ttf", TEXTSIZE / 4, false);
+  TitleFont = createFont("data/Title.ttf", TEXTSIZE, false);
+  SubTitleFont = createFont("data/SubTitle.ttf", TEXTSIZE / 4, false);
   textFont(TitleFont);
   boolean reducedTextSize = false;
   while (textWidth(TITLE) > width * .7) {
     reducedTextSize = true;
     TEXTSIZE--;
-    TitleFont = createFont("GameBoy.ttf", TEXTSIZE,false);
+    TitleFont = createFont("Title.ttf", TEXTSIZE, false);
     textFont(TitleFont);
   }
   if (reducedTextSize) println("WARNING: TITLE might be a little too long");
