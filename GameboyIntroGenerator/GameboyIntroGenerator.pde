@@ -60,12 +60,12 @@ void setup() {
    The color before last will be the last in the opening 'slide'
    The whole title will gradually fade to the final one
    */
-  palette.add(new Integer(color(FINALBLUE)));
-  palette.add(new Integer(color(BLUE)));
-  palette.add(new Integer(color(GREEN)));
-  palette.add(new Integer(color(PINK)));
-  palette.add(new Integer(color(RED)));
-  palette.add(new Integer(color(YELLOW)));
+  palette.add(Integer.valueOf(color(FINALBLUE)));
+  palette.add(Integer.valueOf(color(BLUE)));
+  palette.add(Integer.valueOf(color(GREEN)));
+  palette.add(Integer.valueOf(color(PINK)));
+  palette.add(Integer.valueOf(color(RED)));
+  palette.add(Integer.valueOf(color(YELLOW)));
 
   textLayer = createGraphics(width, height);
   effectLayer = createGraphics(width, height);
