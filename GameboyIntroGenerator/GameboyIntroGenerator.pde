@@ -1,12 +1,12 @@
 import gifAnimation.*;
 import processing.pdf.*;
 
-final String TITLE = "Game boy";
-final String SUBTITLE = "nintendo";
+final String TITLE = "Vida Infinita";
+final String SUBTITLE = "rafalando";
 int TEXTSIZE = 0;
 final int ANIMATIONLENGTH = 4;
 final int FRAMERATE = 60;
-final boolean SAVEGIF = false; //helpful for previewing without saving
+final boolean SAVEGIF = true; //helpful for previewing without saving
 final boolean SAVEFRAMES = false; //Save the frames to create a non-gif video with processing's movie maker
 
 PFont TitleFont;
